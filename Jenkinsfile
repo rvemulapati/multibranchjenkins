@@ -1,22 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000' 
-        }
-    }
-    environment {
-        CI = 'true'
-    }
+    agent any
     stages {
-        stage('Build') {
+        stage('build') {
             steps {
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
+                dir('test1') {
+                    git branch: dev, url: 'https://github.com/rvemulapati/multibranchjenkins.git', credentialsId: 'vemulapatirohini@gmail.com'
+                }
+                sh('build_process')
             }
         }
     }
